@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Personal website — education, experience, projects, honors." />
+  <title>Your Name | Portfolio</title>
+
+  <style>
+    /* ---------- Minimal Design System ---------- */
+    :root{
+      --bg: #ffffff;
+      --fg: #0f172a;        /* slate-900 */
+      --muted:#475569;      /* slate-600 */
+      --soft:#94a3b8;       /* slate-400 */
+      --line:#e2e8f0;       /* slate-200 */
+      --card:#ffffff;
+      --shadow: 0 10px 30px rgba(2,6,23,.08);
+      --radius: 16px;
+      --max: 980px;
+      --accent:#0ea5e9;     /* sky-500 */
+      --accent2:#22c55e;    /* green-500 */
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--fg);
+      font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      letter-spacing: .1px;
+    }
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; text-underline-offset: 4px; }
+
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding: 28px 18px 88px;
+    }
+
+    /* ---------- Top Bar ---------- */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,.86);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding: 12px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width: 200px;
+    }
+    .brand b{ font-size:14px; letter-spacing:.4px; }
+    .brand span{ font-size:12px; color:var(--muted); }
+
+    nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .pill{
+      font-size:13px;
+      color: var(--muted);
+      border:1px solid var(--line);
+      padding:6px 10px;
+      border-radius: 999px;
+      transition: transform .15s ease, border-color .15s ease, color .15s ease;
+      will-change: transform;
+    }
+    .pill:hover{
+      transform: translateY(-1px);
+      border-color: #cbd5e1;
+      color: var(--fg);
+      text-decoration:none;
+    }
+
+    /* ---------- Hero ---------- */
+    .hero{
+      padding: 34px 0 18px;
+    }
+    h1{
+      margin:0 0 10px;
+      font-size: 34px;
+      line-height: 1.2;
+      letter-spacing: -0.6px;
+    }
+    .subtitle{
+      color: var(--muted);
+      max-width: 70ch;
+      margin: 0 0 16px;
+    }
+    .links{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .dot{ color: var(--soft); }
+
+    /* ---------- Sections ---------- */
+    section{
+      padding: 22px 0;
+      border-top: 1px solid var(--line);
+    }
+    .section-title{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    h2{
+      margin:0;
+      font-size: 16px;
+      letter-spacing:.3px;
+      text-transform: uppercase;
+    }
+    .hint{
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ---------- Cards + Hover Motion ---------- */
+    .grid{
+      display:grid;
+      gap: 12px;
+    }
+    .card{
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px 16px 14px;
+      transition:
+        transform .16s ease,
+        box-shadow .16s ease,
+        border-color .16s ease;
+      overflow:hidden;
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      left:0; top:0; bottom:0;
+      width: 0px;
+      background: linear-gradient(180deg, var(--accent), rgba(14,165,233,.0));
+      transition: width .16s ease;
+    }
+    .card:hover{
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: #cbd5e1;
+    }
+    .card:hover::before{ width: 4px; }
+
+    .row{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+    .role{
+      font-weight: 650;
+      letter-spacing:.1px;
+    }
+    .org{
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 2px;
+    }
+    .time{
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    ul{
+      margin: 10px 0 0 18px;
+      padding:0;
+      color: var(--fg);
+    }
+    li{ margin: 6px 0; }
+    .meta{
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .tags{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .tag{
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 2px 9px;
+      border-radius: 999px;
+      transition: border-color .16s ease, color .16s ease;
+    }
+    .card:hover .tag{
+      border-color: #cbd5e1;
+      color: #0b1220;
+    }
+
+    /* ---------- Two-column layout for larger screens ---------- */
+    .two{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 12px;
+    }
+    @media (max-width: 860px){
+      .two{ grid-template-columns: 1fr; }
+      .brand{ min-width: unset; }
+    }
+
+    /* ---------- Footer ---------- */
+    footer{
+      padding-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+      margin-top: 26px;
+    }
+
+    /* ---------- Small “focus ring” for accessibility ---------- */
+    :focus-visible{
+      outline: 3px solid rgba(14,165,233,.25);
+      outline-offset: 3px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <b>Your Name</b>
+        <span>Major / Track · City · Open to internships</span>
+      </div>
+
+      <nav aria-label="Primary">
+        <a class="pill" href="#education">Education</a>
+        <a class="pill" href="#experience">Experience</a>
+        <a class="pill" href="#projects">Projects</a>
+        <a class="pill" href="#honors">Honors</a>
+        <a class="pill" href="#coursework">Coursework</a>
+        <a class="pill" href="#contact">Contact</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Hi, I'm Your Name.</h1>
+      <p class="subtitle">
+        I build things at the intersection of <b>engineering</b>, <b>data</b>, and <b>research</b>.
+        This is a minimal snapshot of my background — education, experience, projects, and selected awards.
+      </p>
+      <div class="links">
+        <span>Email: <a href="mailto:your@email.com">your@email.com</a></span>
+        <span class="dot">·</span>
+        <span>GitHub: <a href="https://github.com/your-username" target="_blank" rel="noreferrer">your-username</a></span>
+        <span class="dot">·</span>
+        <span>LinkedIn: <a href="https://www.linkedin.com/in/your-handle/" target="_blank" rel="noreferrer">/in/your-handle</a></span>
+        <span class="dot">·</span>
+        <span>Resume: <a href="#" target="_blank" rel="noreferrer">PDF</a></span>
+      </div>
+    </div>
+
+    <!-- Education + Quick Facts -->
+    <section id="education">
+      <div class="section-title">
+        <h2>Education</h2>
+        <div class="hint">Keep it concise, highlight what matters.</div>
+      </div>
+
+      <div class="two">
+        <div class="grid">
+          <article class="card">
+            <div class="row">
+              <div>
+                <div class="role">Shanghai Jiao Tong University (Example)</div>
+                <div class="org">B.Eng. in X · Minor in Y (optional)</div>
+              </div>
+              <div class="time">Sep 2023 — Present</div>
+            </div>
+            <ul>
+              <li>Focus: applied ML, scientific computing, and systems.</li>
+              <li>Relevant activities: student org leadership / research (optional).</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">GPA: X.XX/4.00</span>
+              <span class="tag">Scholarship (optional)</span>
+              <span class="tag">Exchange (optional)</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="row">
+              <div>
+                <div class="role">Quick Facts</div>
+                <div class="org">A few anchors for recruiters.</div>
+              </div>
+            </div>
+            <ul>
+              <li>Interests: Quant / AI4Science / Systems</li>
+              <li>Tech: Python, C++, PyTorch, MATLAB</li>
+              <li>Languages: English, Chinese</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience">
+      <div class="section-title">
+        <h2>Experience</h2>
+        <div class="hint">Hover over cards.</div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="role">Role Title</div>
+              <div class="org">Company / Lab · Team (optional)</div>
+            </div>
+            <div class="time">Jun 2025 — Sep 2025</div>
+          </div>
+          <ul>
+            <li>Built <b>X</b> to achieve <b>Y</b>, improving <b>Z</b> by <b>__%</b>.</li>
+            <li>Owned end-to-end pipeline: data → training → evaluation → reporting.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">Benchmarking</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="role">Leadership / Organization</div>
+              <div class="org">Student Union / Club (optional)</div>
+            </div>
+            <div class="time">2024 — Present</div>
+          </div>
+          <ul>
+            <li>Led a team of __; improved workflow with templates and task rotation.</li>
+            <li>Organized __ events; drove __ partnerships (optional).</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Leadership</span>
+            <span class="tag">Operations</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <div class="section-title">
+        <h2>Projects</h2>
+        <div class="hint">Show outcomes, not just tasks.</div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="role">Project Name</div>
+              <div class="org">One-line positioning · link: <a href="#" target="_blank" rel="noreferrer">GitHub</a></div>
+            </div>
+            <div class="time">2025</div>
+          </div>
+          <ul>
+            <li>Problem: what you were solving.</li>
+            <li>Approach: methods, models, system design.</li>
+            <li>Result: metrics, speedup, accuracy, adoption, demo.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Computer Vision</span>
+            <span class="tag">Evaluation</span>
+            <span class="tag">Docker/HPC</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="role">Solar-Powered Auto Blinds Controller (Example)</div>
+              <div class="org">Embedded / Control · Demo-ready</div>
+            </div>
+            <div class="time">2025</div>
+          </div>
+          <ul>
+            <li>Designed a temperature + illumination feedback loop for glare reduction.</li>
+            <li>Implemented control logic and validated across multiple conditions.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Control</span>
+            <span class="tag">Embedded</span>
+            <span class="tag">Sensors</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Honors -->
+    <section id="honors">
+      <div class="section-title">
+        <h2>Honors</h2>
+        <div class="hint">Selected awards & recognitions.</div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="role">Award / Scholarship Name</div>
+              <div class="org">Issuer (optional)</div>
+            </div>
+            <div class="time">2025</div>
+          </div>
+          <ul>
+            <li>One short line describing why it matters (rank/top __%, etc.).</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="role">Competition / Recognition</div>
+              <div class="org">Context (optional)</div>
+            </div>
+            <div class="time">2024</div>
+          </div>
+          <ul>
+            <li>Achievement: finalist / champion / best paper / etc.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Coursework -->
+    <section id="coursework">
+      <div class="section-title">
+        <h2>Coursework</h2>
+        <div class="hint">Pick only the most relevant.</div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="role">Core</div>
+              <div class="org">Math / CS / Engineering</div>
+            </div>
+          </div>
+          <div class="meta">
+            Calculus I–III · Linear Algebra · Discrete Math · Probability · Data Mining · Algorithms · Signals & Systems
+          </div>
+          <div class="tags">
+            <span class="tag">A</span><span class="tag">A-</span><span class="tag">A (optional)</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="role">Advanced / Electives</div>
+              <div class="org">ML / Systems / Finance (optional)</div>
+            </div>
+          </div>
+          <div class="meta">
+            Machine Learning · Optimization · Scientific Computing · Quant Finance (optional) · NLP / CV (optional)
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="section-title">
+        <h2>Contact</h2>
+        <div class="hint">Simple, direct.</div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="role">Let's connect</div>
+              <div class="org">Email is best.</div>
+            </div>
+          </div>
+          <ul>
+            <li>Email: <a href="mailto:your@email.com">your@email.com</a></li>
+            <li>GitHub: <a href="https://github.com/your-username" target="_blank" rel="noreferrer">your-username</a></li>
+            <li>LinkedIn: <a href="https://www.linkedin.com/in/your-handle/" target="_blank" rel="noreferrer">/in/your-handle</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="y"></span> Your Name. Built with GitHub Pages.
+    </footer>
+  </main>
+
+  <script>
+    // tiny convenience: current year
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
