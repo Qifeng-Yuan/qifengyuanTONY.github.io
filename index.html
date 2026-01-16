@@ -3,23 +3,76 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Personal website — education, experience, projects, honors." />
-  <title>Your Name | Portfolio</title>
+  <meta name="description" content="Qifeng (Tony) Yuan — Education, research experience, projects, honors." />
+  <title>Qifeng (Tony) Yuan | Portfolio</title>
 
   <style>
-    /* ---------- Minimal Design System ---------- */
+    /* =========================
+       Minimal Design System
+       + Dark mode (system + toggle)
+       ========================= */
+
     :root{
       --bg: #ffffff;
-      --fg: #0f172a;        /* slate-900 */
-      --muted:#475569;      /* slate-600 */
-      --soft:#94a3b8;       /* slate-400 */
-      --line:#e2e8f0;       /* slate-200 */
+      --fg: #0f172a;
+      --muted:#475569;
+      --soft:#94a3b8;
+      --line:#e2e8f0;
       --card:#ffffff;
       --shadow: 0 10px 30px rgba(2,6,23,.08);
       --radius: 16px;
       --max: 980px;
-      --accent:#0ea5e9;     /* sky-500 */
-      --accent2:#22c55e;    /* green-500 */
+      --accent:#0ea5e9;
+      --accentFade: rgba(14,165,233,.0);
+
+      --kbd: #0f172a;
+      --kbdBg: #f1f5f9;
+      --kbdLine: #e2e8f0;
+    }
+
+    /* System dark mode defaults */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg: #0b1220;
+        --fg: #e5e7eb;
+        --muted:#a3b3c7;
+        --soft:#7c8aa3;
+        --line: rgba(148,163,184,.18);
+        --card: rgba(15,23,42,.65);
+        --shadow: 0 14px 40px rgba(0,0,0,.35);
+
+        --kbd: #e5e7eb;
+        --kbdBg: rgba(148,163,184,.12);
+        --kbdLine: rgba(148,163,184,.20);
+      }
+    }
+
+    /* Manual override via data-theme */
+    html[data-theme="light"]{
+      --bg: #ffffff;
+      --fg: #0f172a;
+      --muted:#475569;
+      --soft:#94a3b8;
+      --line:#e2e8f0;
+      --card:#ffffff;
+      --shadow: 0 10px 30px rgba(2,6,23,.08);
+
+      --kbd: #0f172a;
+      --kbdBg: #f1f5f9;
+      --kbdLine: #e2e8f0;
+    }
+    html[data-theme="dark"]{
+      --bg: #0b1220;
+      --fg: #e5e7eb;
+      --muted:#a3b3c7;
+      --soft:#7c8aa3;
+      --line: rgba(148,163,184,.18);
+      --card: rgba(15,23,42,.65);
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+
+      --kbd: #e5e7eb;
+      --kbdBg: rgba(148,163,184,.12);
+      --kbdLine: rgba(148,163,184,.20);
     }
 
     *{ box-sizing:border-box; }
@@ -33,6 +86,7 @@
     }
     a{ color:inherit; text-decoration:none; }
     a:hover{ text-decoration:underline; text-underline-offset: 4px; }
+    b{ font-weight: 650; }
 
     .wrap{
       max-width:var(--max);
@@ -40,12 +94,14 @@
       padding: 28px 18px 88px;
     }
 
-    /* ---------- Top Bar ---------- */
+    /* =========================
+       Top Bar
+       ========================= */
     .topbar{
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255,255,255,.86);
+      background: color-mix(in srgb, var(--bg) 86%, transparent);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
     }
@@ -62,7 +118,7 @@
       display:flex;
       flex-direction:column;
       gap:2px;
-      min-width: 200px;
+      min-width: 220px;
     }
     .brand b{ font-size:14px; letter-spacing:.4px; }
     .brand span{ font-size:12px; color:var(--muted); }
@@ -72,6 +128,7 @@
       gap:10px;
       flex-wrap:wrap;
       justify-content:flex-end;
+      align-items:center;
     }
     .pill{
       font-size:13px;
@@ -81,18 +138,51 @@
       border-radius: 999px;
       transition: transform .15s ease, border-color .15s ease, color .15s ease;
       will-change: transform;
+      background: transparent;
     }
     .pill:hover{
       transform: translateY(-1px);
-      border-color: #cbd5e1;
+      border-color: color-mix(in srgb, var(--line) 40%, var(--fg));
       color: var(--fg);
       text-decoration:none;
     }
 
-    /* ---------- Hero ---------- */
-    .hero{
-      padding: 34px 0 18px;
+    .theme-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      cursor:pointer;
+      user-select:none;
+      font-size:13px;
+      color:var(--muted);
+      border:1px solid var(--line);
+      padding:6px 10px;
+      border-radius:999px;
+      background: transparent;
+      transition: transform .15s ease, border-color .15s ease, color .15s ease;
     }
+    .theme-btn:hover{
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--line) 40%, var(--fg));
+      color: var(--fg);
+    }
+    .kbd{
+      font-size:12px;
+      color: var(--kbd);
+      background: var(--kbdBg);
+      border: 1px solid var(--kbdLine);
+      padding: 0 6px;
+      border-radius: 8px;
+      line-height: 20px;
+      height: 20px;
+      display:inline-flex;
+      align-items:center;
+    }
+
+    /* =========================
+       Hero
+       ========================= */
+    .hero{ padding: 34px 0 18px; }
     h1{
       margin:0 0 10px;
       font-size: 34px;
@@ -101,7 +191,7 @@
     }
     .subtitle{
       color: var(--muted);
-      max-width: 70ch;
+      max-width: 80ch;
       margin: 0 0 16px;
     }
     .links{
@@ -114,7 +204,9 @@
     }
     .dot{ color: var(--soft); }
 
-    /* ---------- Sections ---------- */
+    /* =========================
+       Sections
+       ========================= */
     section{
       padding: 22px 0;
       border-top: 1px solid var(--line);
@@ -132,26 +224,19 @@
       letter-spacing:.3px;
       text-transform: uppercase;
     }
-    .hint{
-      font-size: 13px;
-      color: var(--muted);
-    }
+    .hint{ font-size: 13px; color: var(--muted); }
 
-    /* ---------- Cards + Hover Motion ---------- */
-    .grid{
-      display:grid;
-      gap: 12px;
-    }
+    /* =========================
+       Cards + Hover Motion
+       ========================= */
+    .grid{ display:grid; gap: 12px; }
     .card{
       position: relative;
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 16px 16px 14px;
-      transition:
-        transform .16s ease,
-        box-shadow .16s ease,
-        border-color .16s ease;
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
       overflow:hidden;
     }
     .card::before{
@@ -159,13 +244,13 @@
       position:absolute;
       left:0; top:0; bottom:0;
       width: 0px;
-      background: linear-gradient(180deg, var(--accent), rgba(14,165,233,.0));
+      background: linear-gradient(180deg, var(--accent), var(--accentFade));
       transition: width .16s ease;
     }
     .card:hover{
       transform: translateY(-3px);
       box-shadow: var(--shadow);
-      border-color: #cbd5e1;
+      border-color: color-mix(in srgb, var(--line) 40%, var(--fg));
     }
     .card:hover::before{ width: 4px; }
 
@@ -176,31 +261,14 @@
       gap: 10px;
       flex-wrap:wrap;
     }
-    .role{
-      font-weight: 650;
-      letter-spacing:.1px;
-    }
-    .org{
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 2px;
-    }
-    .time{
-      color: var(--muted);
-      font-size: 13px;
-      white-space: nowrap;
-    }
-    ul{
-      margin: 10px 0 0 18px;
-      padding:0;
-      color: var(--fg);
-    }
+    .role{ font-weight: 650; letter-spacing:.1px; }
+    .org{ color: var(--muted); font-size: 14px; margin-top: 2px; }
+    .time{ color: var(--muted); font-size: 13px; white-space: nowrap; }
+
+    ul{ margin: 10px 0 0 18px; padding:0; }
     li{ margin: 6px 0; }
-    .meta{
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 10px;
-    }
+
+    .meta{ color: var(--muted); font-size: 13px; margin-top: 10px; }
 
     .tags{
       display:flex;
@@ -217,14 +285,75 @@
       transition: border-color .16s ease, color .16s ease;
     }
     .card:hover .tag{
-      border-color: #cbd5e1;
-      color: #0b1220;
+      border-color: color-mix(in srgb, var(--line) 40%, var(--fg));
+      color: color-mix(in srgb, var(--fg) 90%, var(--muted));
     }
 
-    /* ---------- Two-column layout for larger screens ---------- */
+    /* =========================
+       Expandable details
+       ========================= */
+    details{
+      margin-top: 10px;
+      border-top: 1px dashed var(--line);
+      padding-top: 10px;
+    }
+    summary{
+      list-style: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 13px;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      user-select:none;
+    }
+    summary::-webkit-details-marker{ display:none; }
+    .chev{
+      width: 18px;
+      height: 18px;
+      border:1px solid var(--line);
+      border-radius: 999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      transition: transform .16s ease, border-color .16s ease;
+      flex: 0 0 auto;
+    }
+    details[open] .chev{ transform: rotate(90deg); }
+    .chev span{
+      display:inline-block;
+      transform: translateX(1px);
+      color: var(--soft);
+      font-size: 12px;
+    }
+    details:hover .chev{
+      border-color: color-mix(in srgb, var(--line) 40%, var(--fg));
+    }
+    .details-body{
+      margin-top: 10px;
+      color: var(--fg);
+    }
+    .details-body ul{
+      margin-top: 8px;
+    }
+    .subgrid{
+      display:grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .mini{
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+    }
+    .mini b{ font-size: 13px; }
+    .mini .meta{ margin-top: 6px; }
+
+    /* Two-column layout for larger screens */
     .two{
       display:grid;
-      grid-template-columns: 1.15fr .85fr;
+      grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
     @media (max-width: 860px){
@@ -232,7 +361,7 @@
       .brand{ min-width: unset; }
     }
 
-    /* ---------- Footer ---------- */
+    /* Footer */
     footer{
       padding-top: 24px;
       color: var(--muted);
@@ -241,9 +370,9 @@
       margin-top: 26px;
     }
 
-    /* ---------- Small “focus ring” for accessibility ---------- */
+    /* Accessibility focus */
     :focus-visible{
-      outline: 3px solid rgba(14,165,233,.25);
+      outline: 3px solid color-mix(in srgb, var(--accent) 25%, transparent);
       outline-offset: 3px;
       border-radius: 10px;
     }
@@ -251,183 +380,247 @@
 </head>
 
 <body>
-  <!-- Top Bar -->
   <div class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <b>Your Name</b>
-        <span>Major / Track · City · Open to internships</span>
+        <b>Qifeng (Tony) Yuan</b>
+        <span>ECE · Research & AI4Science · Finance-curious</span>
       </div>
 
       <nav aria-label="Primary">
         <a class="pill" href="#education">Education</a>
-        <a class="pill" href="#experience">Experience</a>
+        <a class="pill" href="#experience">Research</a>
         <a class="pill" href="#projects">Projects</a>
         <a class="pill" href="#honors">Honors</a>
-        <a class="pill" href="#coursework">Coursework</a>
-        <a class="pill" href="#contact">Contact</a>
+        <a class="pill" href="#skills">Skills</a>
+        <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle theme">
+          <span id="themeLabel">Theme</span>
+          <span class="kbd">T</span>
+        </button>
       </nav>
     </div>
   </div>
 
   <main class="wrap">
-    <!-- Hero -->
     <div class="hero">
-      <h1>Hi, I'm Your Name.</h1>
+      <h1>Hi, I'm Qifeng (Tony) Yuan.</h1>
       <p class="subtitle">
-        I build things at the intersection of <b>engineering</b>, <b>data</b>, and <b>research</b>.
-        This is a minimal snapshot of my background — education, experience, projects, and selected awards.
+        ECE student at Shanghai Jiao Tong University with strong interests in
+        <b>AI4Science</b>, <b>statistical learning</b>, and <b>research-driven engineering</b>.
+        I also follow venture investing and market dynamics, combining subjective research with
+        lightweight quantitative validation.
       </p>
       <div class="links">
-        <span>Email: <a href="mailto:your@email.com">your@email.com</a></span>
+        <span>Email: <a href="mailto:yuanqifeng@sjtu.edu.cn">yuanqifeng@sjtu.edu.cn</a></span>
         <span class="dot">·</span>
-        <span>GitHub: <a href="https://github.com/your-username" target="_blank" rel="noreferrer">your-username</a></span>
+        <span>Phone: +86 173 0178 8372</span>
         <span class="dot">·</span>
-        <span>LinkedIn: <a href="https://www.linkedin.com/in/your-handle/" target="_blank" rel="noreferrer">/in/your-handle</a></span>
+        <span>Location: Minhang, Shanghai</span>
         <span class="dot">·</span>
-        <span>Resume: <a href="#" target="_blank" rel="noreferrer">PDF</a></span>
+        <span>GitHub: <a href="https://github.com/qifengyuantony" target="_blank" rel="noreferrer">qifengyuantony</a></span>
       </div>
     </div>
 
-    <!-- Education + Quick Facts -->
+    <!-- Education (no Quick Facts) -->
     <section id="education">
       <div class="section-title">
         <h2>Education</h2>
-        <div class="hint">Keep it concise, highlight what matters.</div>
-      </div>
-
-      <div class="two">
-        <div class="grid">
-          <article class="card">
-            <div class="row">
-              <div>
-                <div class="role">Shanghai Jiao Tong University (Example)</div>
-                <div class="org">B.Eng. in X · Minor in Y (optional)</div>
-              </div>
-              <div class="time">Sep 2023 — Present</div>
-            </div>
-            <ul>
-              <li>Focus: applied ML, scientific computing, and systems.</li>
-              <li>Relevant activities: student org leadership / research (optional).</li>
-            </ul>
-            <div class="tags">
-              <span class="tag">GPA: X.XX/4.00</span>
-              <span class="tag">Scholarship (optional)</span>
-              <span class="tag">Exchange (optional)</span>
-            </div>
-          </article>
-        </div>
-
-        <div class="grid">
-          <article class="card">
-            <div class="row">
-              <div>
-                <div class="role">Quick Facts</div>
-                <div class="org">A few anchors for recruiters.</div>
-              </div>
-            </div>
-            <ul>
-              <li>Interests: Quant / AI4Science / Systems</li>
-              <li>Tech: Python, C++, PyTorch, MATLAB</li>
-              <li>Languages: English, Chinese</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Experience -->
-    <section id="experience">
-      <div class="section-title">
-        <h2>Experience</h2>
-        <div class="hint">Hover over cards.</div>
+        <div class="hint">Academic background and exchange experience.</div>
       </div>
 
       <div class="grid">
         <article class="card">
           <div class="row">
             <div>
-              <div class="role">Role Title</div>
-              <div class="org">Company / Lab · Team (optional)</div>
+              <div class="role">Shanghai Jiao Tong University</div>
+              <div class="org">B.Eng. in Electrical and Computer Engineering</div>
             </div>
-            <div class="time">Jun 2025 — Sep 2025</div>
+            <div class="time">Sep 2024 — Sep 2028</div>
           </div>
           <ul>
-            <li>Built <b>X</b> to achieve <b>Y</b>, improving <b>Z</b> by <b>__%</b>.</li>
-            <li>Owned end-to-end pipeline: data → training → evaluation → reporting.</li>
+            <li>GPA: 3.52 / 4.00</li>
+          </ul>
+          <details>
+            <summary>
+              <span class="chev" aria-hidden="true"><span>›</span></span>
+              Expand details
+            </summary>
+            <div class="details-body">
+              <div class="subgrid">
+                <div class="mini">
+                  <b>Interests</b>
+                  <div class="meta">AI4Science · Multimodal evaluation · Signal processing · Quantitative analysis</div>
+                </div>
+                <div class="mini">
+                  <b>Notes</b>
+                  <div class="meta">I prefer concise, outcome-oriented work and clean engineering documentation.</div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </article>
+
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="role">Technical University of Berlin</div>
+              <div class="org">Exchange Student</div>
+            </div>
+            <div class="time">Jan 2025</div>
+          </div>
+          <ul>
+            <li>Short-term academic exchange and laboratory visits.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Research Experience (expandable) -->
+    <section id="experience">
+      <div class="section-title">
+        <h2>Research Experience</h2>
+        <div class="hint">Hover cards; click “Expand details” for more.</div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="role">Digital Emotion Analysis from EEG Signals</div>
+              <div class="org">Translational Medicine Institute, SJTU</div>
+            </div>
+            <div class="time">Dec 2025 — Present</div>
+          </div>
+          <ul>
+            <li>Conducted statistical analysis and feature extraction on EEG datasets using Python.</li>
+            <li>Explored emotion classification/regression pipelines to infer emotional states from neural signals.</li>
           </ul>
           <div class="tags">
             <span class="tag">Python</span>
-            <span class="tag">PyTorch</span>
-            <span class="tag">Benchmarking</span>
+            <span class="tag">EEG</span>
+            <span class="tag">ML</span>
+            <span class="tag">Stats</span>
           </div>
+
+          <details>
+            <summary>
+              <span class="chev" aria-hidden="true"><span>›</span></span>
+              Expand details
+            </summary>
+            <div class="details-body">
+              <div class="subgrid">
+                <div class="mini">
+                  <b>What I do</b>
+                  <ul>
+                    <li>Feature engineering: time-domain & frequency-domain descriptors.</li>
+                    <li>Modeling: baseline classifiers/regressors; validation and error analysis.</li>
+                    <li>Research workflow: clear hypotheses → experiments → reportable results.</li>
+                  </ul>
+                </div>
+                <div class="mini">
+                  <b>Status</b>
+                  <div class="meta">Manuscript under preparation; targeted submission in 2026.</div>
+                </div>
+              </div>
+            </div>
+          </details>
         </article>
 
         <article class="card">
           <div class="row">
             <div>
-              <div class="role">Leadership / Organization</div>
-              <div class="org">Student Union / Club (optional)</div>
+              <div class="role">AI4Science Agent Evaluation</div>
+              <div class="org">Shanghai AI Laboratory</div>
             </div>
-            <div class="time">2024 — Present</div>
+            <div class="time">Dec 2025 — Present</div>
           </div>
           <ul>
-            <li>Led a team of __; improved workflow with templates and task rotation.</li>
-            <li>Organized __ events; drove __ partnerships (optional).</li>
+            <li>Benchmarked domain-specific models against general-purpose VLMs on subject benchmarks.</li>
+            <li>Designed perturbation-based robustness tests for scientific agent reliability.</li>
           </ul>
           <div class="tags">
-            <span class="tag">Leadership</span>
-            <span class="tag">Operations</span>
+            <span class="tag">Benchmarking</span>
+            <span class="tag">VLM</span>
+            <span class="tag">Robustness</span>
+            <span class="tag">AI4Science</span>
           </div>
+
+          <details>
+            <summary>
+              <span class="chev" aria-hidden="true"><span>›</span></span>
+              Expand details
+            </summary>
+            <div class="details-body">
+              <div class="subgrid">
+                <div class="mini">
+                  <b>Evaluation focus</b>
+                  <ul>
+                    <li>Accuracy and failure modes across distortions/perturbations.</li>
+                    <li>Reproducible runs and clean reporting for comparisons.</li>
+                    <li>GUI-controlled agent evaluation for scientific software tasks.</li>
+                  </ul>
+                </div>
+                <div class="mini">
+                  <b>Status</b>
+                  <div class="meta">Manuscript under preparation; targeted submission in 2026.</div>
+                </div>
+              </div>
+            </div>
+          </details>
         </article>
       </div>
     </section>
 
-    <!-- Projects -->
+    <!-- Projects (expandable) -->
     <section id="projects">
       <div class="section-title">
         <h2>Projects</h2>
-        <div class="hint">Show outcomes, not just tasks.</div>
+        <div class="hint">Engineering projects with measurable goals.</div>
       </div>
 
       <div class="grid">
         <article class="card">
           <div class="row">
             <div>
-              <div class="role">Project Name</div>
-              <div class="org">One-line positioning · link: <a href="#" target="_blank" rel="noreferrer">GitHub</a></div>
+              <div class="role">Experimental Maglev Linear Motion Platform</div>
+              <div class="org">UM–SJTU Joint Institute, SJTU</div>
             </div>
-            <div class="time">2025</div>
+            <div class="time">Sep 2024 — Sep 2025</div>
           </div>
           <ul>
-            <li>Problem: what you were solving.</li>
-            <li>Approach: methods, models, system design.</li>
-            <li>Result: metrics, speedup, accuracy, adoption, demo.</li>
+            <li>Designed analog circuits in LTSpice to validate performance and stability.</li>
+            <li>Optimized circuit parameters in MATLAB to maximize output signal amplitude.</li>
+            <li>Created schematic and PCB in Altium Designer.</li>
           </ul>
           <div class="tags">
-            <span class="tag">Computer Vision</span>
-            <span class="tag">Evaluation</span>
-            <span class="tag">Docker/HPC</span>
+            <span class="tag">LTSpice</span>
+            <span class="tag">MATLAB</span>
+            <span class="tag">Altium</span>
+            <span class="tag">PCB</span>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="row">
-            <div>
-              <div class="role">Solar-Powered Auto Blinds Controller (Example)</div>
-              <div class="org">Embedded / Control · Demo-ready</div>
+          <details>
+            <summary>
+              <span class="chev" aria-hidden="true"><span>›</span></span>
+              Expand details
+            </summary>
+            <div class="details-body">
+              <div class="subgrid">
+                <div class="mini">
+                  <b>Deliverables</b>
+                  <ul>
+                    <li>Simulation results & stability checks.</li>
+                    <li>Parameter optimization scripts and design rationale.</li>
+                    <li>PCB layout and manufacturing-ready files.</li>
+                  </ul>
+                </div>
+                <div class="mini">
+                  <b>What I learned</b>
+                  <div class="meta">Closed-loop thinking: iterate from simulation → optimization → hardware design.</div>
+                </div>
+              </div>
             </div>
-            <div class="time">2025</div>
-          </div>
-          <ul>
-            <li>Designed a temperature + illumination feedback loop for glare reduction.</li>
-            <li>Implemented control logic and validated across multiple conditions.</li>
-          </ul>
-          <div class="tags">
-            <span class="tag">Control</span>
-            <span class="tag">Embedded</span>
-            <span class="tag">Sensors</span>
-          </div>
+          </details>
         </article>
       </div>
     </section>
@@ -435,107 +628,138 @@
     <!-- Honors -->
     <section id="honors">
       <div class="section-title">
-        <h2>Honors</h2>
-        <div class="hint">Selected awards & recognitions.</div>
+        <h2>Honors & Awards</h2>
+        <div class="hint">Selected competitions and recognitions.</div>
       </div>
 
       <div class="grid">
         <article class="card">
           <div class="row">
             <div>
-              <div class="role">Award / Scholarship Name</div>
-              <div class="org">Issuer (optional)</div>
-            </div>
-            <div class="time">2025</div>
-          </div>
-          <ul>
-            <li>One short line describing why it matters (rank/top __%, etc.).</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <div class="row">
-            <div>
-              <div class="role">Competition / Recognition</div>
-              <div class="org">Context (optional)</div>
+              <div class="role">International Physics Competition — Silver Medal</div>
+              <div class="org">International</div>
             </div>
             <div class="time">2024</div>
           </div>
-          <ul>
-            <li>Achievement: finalist / champion / best paper / etc.</li>
-          </ul>
         </article>
-      </div>
-    </section>
 
-    <!-- Coursework -->
-    <section id="coursework">
-      <div class="section-title">
-        <h2>Coursework</h2>
-        <div class="hint">Pick only the most relevant.</div>
-      </div>
-
-      <div class="grid">
         <article class="card">
           <div class="row">
             <div>
-              <div class="role">Core</div>
-              <div class="org">Math / CS / Engineering</div>
+              <div class="role">Mathematical Contest in Modeling (MCM) — Silver Medal</div>
+              <div class="org">USA</div>
             </div>
-          </div>
-          <div class="meta">
-            Calculus I–III · Linear Algebra · Discrete Math · Probability · Data Mining · Algorithms · Signals & Systems
-          </div>
-          <div class="tags">
-            <span class="tag">A</span><span class="tag">A-</span><span class="tag">A (optional)</span>
+            <div class="time">2025</div>
           </div>
         </article>
 
         <article class="card">
           <div class="row">
             <div>
-              <div class="role">Advanced / Electives</div>
-              <div class="org">ML / Systems / Finance (optional)</div>
+              <div class="role">Li Ming Cup Mechanical Design Competition — 18th Place</div>
+              <div class="org">Shanghai Jiao Tong University</div>
             </div>
+            <div class="time">2025</div>
           </div>
-          <div class="meta">
-            Machine Learning · Optimization · Scientific Computing · Quant Finance (optional) · NLP / CV (optional)
+        </article>
+
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="role">Best Innovation Award — Summer Design Expo</div>
+              <div class="org">UM–SJTU Joint Institute</div>
+            </div>
+            <div class="time">2025</div>
           </div>
         </article>
       </div>
     </section>
 
-    <!-- Contact -->
-    <section id="contact">
+    <!-- Skills -->
+    <section id="skills">
       <div class="section-title">
-        <h2>Contact</h2>
-        <div class="hint">Simple, direct.</div>
+        <h2>Skills</h2>
+        <div class="hint">Languages and technical stack.</div>
       </div>
 
-      <div class="grid">
+      <div class="two">
         <article class="card">
           <div class="row">
             <div>
-              <div class="role">Let's connect</div>
-              <div class="org">Email is best.</div>
+              <div class="role">English</div>
+              <div class="org">Standardized tests</div>
             </div>
           </div>
-          <ul>
-            <li>Email: <a href="mailto:your@email.com">your@email.com</a></li>
-            <li>GitHub: <a href="https://github.com/your-username" target="_blank" rel="noreferrer">your-username</a></li>
-            <li>LinkedIn: <a href="https://www.linkedin.com/in/your-handle/" target="_blank" rel="noreferrer">/in/your-handle</a></li>
-          </ul>
+          <div class="meta">TOEFL 110 · GMAT 625 · CET-4 · CET-6</div>
+        </article>
+
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="role">Programming & Tools</div>
+              <div class="org">Engineering & data</div>
+            </div>
+          </div>
+          <div class="meta">Python · MATLAB · C · C++ · LTSpice · Altium Designer</div>
         </article>
       </div>
     </section>
 
     <footer>
-      © <span id="y"></span> Your Name. Built with GitHub Pages.
+      © <span id="y"></span> Qifeng (Tony) Yuan · Built with GitHub Pages ·
+      <span class="dot">·</span> Press <span class="kbd">T</span> to toggle theme.
     </footer>
   </main>
 
   <script>
-    // tiny convenience: current year
+    // =========================
+    // Theme toggle (remembers choice)
+    // =========================
+    const html = document.documentElement;
+    const btn = document.getElementById("themeBtn");
+    const label = document.getElementById("themeLabel");
+
+    function getPreferredTheme() {
+      const saved = localStorage.getItem("theme");
+      if (saved === "light" || saved === "dark") return saved;
+      // No saved preference -> follow system
+      return "";
+    }
+
+    function applyTheme(theme) {
+      if (theme === "light" || theme === "dark") {
+        html.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+        label.textContent = theme === "dark" ? "Dark" : "Light";
+      } else {
+        // Follow system: remove override
+        html.removeAttribute("data-theme");
+        localStorage.removeItem("theme");
+        label.textContent = "Theme";
+      }
+    }
+
+    function toggleTheme() {
+      // Cycle: system -> dark -> light -> system ...
+      const current = localStorage.getItem("theme");
+      if (!current) applyTheme("dark");
+      else if (current === "dark") applyTheme("light");
+      else applyTheme("");
+    }
+
+    // init
+    applyTheme(getPreferredTheme());
+
+    btn.addEventListener("click", toggleTheme);
+
+    // keyboard shortcut: T
+    document.addEventListener("keydown", (e) => {
+      if (e.key.toLowerCase() === "t" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        toggleTheme();
+      }
+    });
+
+    // current year
     document.getElementById("y").textContent = new Date().getFullYear();
   </script>
 </body>
