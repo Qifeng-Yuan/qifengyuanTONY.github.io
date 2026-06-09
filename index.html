@@ -1,1527 +1,235 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Qifeng (Tony) Yuan — CS/ECE portfolio." />
-  <title>Qifeng (Tony) Yuan | Portfolio</title>
-
-  <style>
-    :root{
-      /* Light-only, Dify-like clean grid */
-      --bg:#ffffff;
-      --fg:#0b1220;
-      --muted:#475569;
-      --soft:#94a3b8;
-      --line:#e2e8f0;
-      --card:#ffffff;
-      --card2:#f8fafc;
-      --shadow: 0 18px 55px rgba(2,6,23,.10);
-      --shadow2: 0 10px 28px rgba(2,6,23,.10);
-      --r:18px;
-      --max: 1180px;
-
-      --blue:#2563eb;
-      --blue2:#60a5fa;
-      --violet:#7c3aed;
-      --green:#10b981;
-
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    }
-
-    *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
-    body{
-      margin:0;
-      color:var(--fg);
-      background: var(--bg);
-      font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      letter-spacing:.12px;
-    }
-    a{ color:inherit; text-decoration:none; }
-    a:hover{ text-decoration: underline; text-underline-offset: 4px; }
-    ul{ margin:10px 0 0 18px; padding:0; }
-    li{ margin: 6px 0; }
-    b{ font-weight: 720; }
-
-    /* subtle blueprint grid */
-    body::before{
-      content:"";
-      position: fixed;
-      inset: 0;
-      pointer-events:none;
-      z-index:-1;
-      background:
-        linear-gradient(to right, rgba(37,99,235,.08) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(37,99,235,.08) 1px, transparent 1px);
-      background-size: 96px 96px;
-      opacity:.55;
-      mask-image: radial-gradient(860px 520px at 32% 12%, black 60%, transparent 82%);
-    }
-
-    /* =========================
-       Topbar
-       ========================= */
-    .topbar{
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(255,255,255,.78);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--line);
-    }
-    .topbar-inner{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 12px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 14px;
-    }
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap: 1px;
-      min-width: 260px;
-    }
-    .brand b{ font-size: 14px; letter-spacing:.5px; }
-    .brand span{
-      font-size: 12px;
-      color: var(--muted);
-      font-family: var(--mono);
-      letter-spacing:.18px;
-    }
-    nav{
-      display:flex;
-      gap: 10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-      align-items:center;
-    }
-    .pill{
-      font-size: 13.5px;
-      color: var(--muted);
-      border: 1px solid var(--line);
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: rgba(248,250,252,.75);
-      transition: transform .14s ease, border-color .14s ease, color .14s ease, background .14s ease;
-      will-change: transform;
-    }
-    .pill:hover{
-      transform: translateY(-1px);
-      border-color: rgba(37,99,235,.28);
-      color: var(--fg);
-      background: #fff;
-      text-decoration:none;
-    }
-    .pill.active{
-      color: var(--blue);
-      border-color: rgba(37,99,235,.30);
-      background: rgba(37,99,235,.06);
-      font-weight: 650;
-    }
-
-    .wrap{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 22px 18px 84px;
-    }
-
-    /* anchor offset so clicking nav lands on title */
-    .anchor{
-      position: relative;
-      top: -86px;
-      height: 0;
-      visibility: hidden;
-    }
-
-    /* =========================
-       Hero (simple, light, tech)
-       ========================= */
-    .hero{
-      border: 1px solid var(--line);
-      border-radius: calc(var(--r) + 10px);
-      background: linear-gradient(180deg, #ffffff, #f8fafc);
-      box-shadow: var(--shadow);
-      padding: 22px;
-      display:grid;
-      grid-template-columns: 1.35fr .65fr;
-      gap: 14px;
-      align-items: stretch;
-      overflow:hidden;
-      position: relative;
-    }
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(620px 300px at 18% 18%, rgba(37,99,235,.12), transparent 70%),
-        radial-gradient(620px 300px at 88% 24%, rgba(124,58,237,.10), transparent 72%);
-      pointer-events:none;
-      opacity:.95;
-    }
-    .hero > *{ position: relative; z-index: 1; }
-    @media (max-width: 920px){ .hero{ grid-template-columns:1fr; } }
-
-    .kicker{
-      font-family: var(--mono);
-      color: var(--muted);
-      font-size: 12.5px;
-      letter-spacing:.22px;
-      display:flex;
-      gap: 10px;
-      align-items:center;
-      margin-bottom: 10px;
-    }
-    .dot{ width:8px; height:8px; border-radius:999px; background: var(--blue); box-shadow: 0 0 0 4px rgba(37,99,235,.12); }
-
-    h1{
-      margin: 0 0 10px;
-      font-size: 44px;
-      line-height: 1.08;
-      letter-spacing: -1px;
-    }
-    .grad{
-      background: linear-gradient(90deg, #0b1220, rgba(37,99,235,.98), rgba(124,58,237,.92));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .subtitle{ margin: 0 0 12px; color: var(--muted); max-width: 92ch; }
-
-    .cta{
-      display:flex; gap: 10px; flex-wrap:wrap; align-items:center;
-      margin-top: 10px;
-    }
-    .btn{
-      display:inline-flex; align-items:center; gap: 10px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: #fff;
-      box-shadow: 0 1px 0 rgba(2,6,23,.02);
-      transition: transform .14s ease, border-color .14s ease, box-shadow .14s ease;
-      font-size: 14px;
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(37,99,235,.30);
-      box-shadow: var(--shadow2);
-      text-decoration:none;
-    }
-    .btn.primary{
-      border-color: rgba(37,99,235,.30);
-      background: linear-gradient(135deg, rgba(37,99,235,.08), rgba(124,58,237,.06));
-    }
-    .btn small{ font-family: var(--mono); color: var(--muted); font-size: 12px; }
-
-    .hero-right{
-      border: 1px solid var(--line);
-      border-radius: calc(var(--r) + 8px);
-      background: #fff;
-      box-shadow: var(--shadow2);
-      padding: 14px;
-      display:flex;
-      flex-direction:column;
-      gap: 12px;
-      overflow:hidden;
-    }
-    .avatar{
-      border: 1px solid var(--line);
-      border-radius: calc(var(--r) + 10px);
-      overflow:hidden;
-      aspect-ratio: 1/1;
-      background: #f1f5f9;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position: relative;
-    }
-    .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .avatar .ph{ padding: 14px; text-align:center; color: var(--muted); font-size: 13px; line-height: 1.45; }
-
-    .quick{
-      display:grid;
-      gap: 10px;
-    }
-    .kv{
-      display:flex;
-      justify-content:space-between;
-      gap: 10px;
-      padding: 10px 12px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #fff;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .kv b{ color: var(--fg); font-weight: 700; }
-
-    /* =========================
-       Section title
-       ========================= */
-    section{ padding: 26px 0; border-top: 1px solid var(--line); }
-    .section-head{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    h2{
-      margin:0;
-      font-size: 14.5px;
-      letter-spacing:.6px;
-      text-transform: uppercase;
-      color: #0b1220;
-      display:flex;
-      align-items:center;
-      gap: 10px;
-    }
-    .h2dot{ width:10px; height:10px; border-radius:999px; background: var(--blue); box-shadow: 0 0 0 4px rgba(37,99,235,.10); }
-    .hint{ font-size: 13px; color: var(--muted); }
-
-    /* =========================
-       Fullpage items (per category)
-       ========================= */
-    .stack{
-      position: relative;
-      border: 1px solid var(--line);
-      border-radius: calc(var(--r) + 10px);
-      background: #fff;
-      overflow:hidden;
-      box-shadow: var(--shadow2);
-    }
-    .stack-viewport{
-      height: 78vh;           /* big like screenshot, but not full */
-      min-height: 520px;
-      max-height: 860px;
-      position: relative;
-      overflow: hidden;
-    }
-    .stack-track{
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      inset: 0;
-      transform: translateY(0);
-      transition: transform .65s cubic-bezier(.2,.8,.2,1);
-      will-change: transform;
-    }
-    .panel{
-      height: 78vh;
-      min-height: 520px;
-      max-height: 860px;
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 0;
-      border-top: 1px solid var(--line);
-      background: #fff;
-    }
-    .panel:first-child{ border-top: 0; }
-    @media (max-width: 960px){
-      .panel{ grid-template-columns: 1fr; height: auto; min-height: unset; max-height: unset; }
-      .stack-viewport{ height: auto; min-height: unset; max-height: unset; }
-      .stack-track{ position: static; transform:none !important; transition:none; }
-    }
-
-    .panel-left{
-      padding: 20px 18px 18px;
-      border-right: 1px solid var(--line);
-    }
-    @media (max-width: 960px){ .panel-left{ border-right:0; border-bottom: 1px solid var(--line); } }
-
-    .panel-title{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 12px;
-      flex-wrap:wrap;
-      margin-bottom: 8px;
-    }
-    .role{ font-weight: 820; font-size: 20px; line-height: 1.25; }
-    .org{ color: var(--muted); margin-top: 3px; font-size: 14.5px; }
-    .time{
-      color: var(--blue);
-      font-family: var(--mono);
-      font-size: 12.5px;
-      padding: 4px 10px;
-      border: 1px solid rgba(37,99,235,.22);
-      border-radius: 999px;
-      background: rgba(37,99,235,.06);
-      white-space: nowrap;
-    }
-    .tags{
-      display:flex; gap: 8px; flex-wrap:wrap; margin-top: 12px;
-    }
-    .tag{
-      font-size: 12.5px;
-      color: var(--muted);
-      border: 1px solid var(--line);
-      padding: 2px 9px;
-      border-radius: 999px;
-      background: #fff;
-      font-family: var(--mono);
-    }
-
-    .panel-right{
-      display:flex;
-      flex-direction:column;
-      height: 100%;
-      min-height: 0;
-      background: #fff;
-    }
-    /* right: top image, bottom text */
-    .media{
-      flex: 1.05;
-      min-height: 0;
-      position: relative;
-      border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, #f8fafc, #ffffff);
-      overflow:hidden;
-    }
-    .media img{
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display:block;
-      filter: saturate(1.02);
-      transform: scale(1.02);
-    }
-    .media::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: linear-gradient(180deg, transparent 55%, rgba(255,255,255,.92));
-      pointer-events:none;
-    }
-    .media.ph{
-      display:flex; align-items:center; justify-content:center;
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 12.5px;
-    }
-
-    .panel-desc{
-      flex: .95;
-      padding: 16px 18px 18px;
-      display:flex;
-      flex-direction:column;
-      gap: 10px;
-    }
-    .desc-title{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      flex-wrap:wrap;
-    }
-    .desc-title b{ font-size: 14px; }
-    .desc-title span{ color: var(--muted); font-size: 13px; }
-
-    .metric{
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
-      margin-top: 6px;
-    }
-    @media (max-width: 620px){ .metric{ grid-template-columns: 1fr; } }
-
-    .mcard{
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 10px 12px;
-      background: #fff;
-    }
-    .mcard .k{ font-family: var(--mono); color: var(--muted); font-size: 12px; }
-    .mcard .v{ font-weight: 780; margin-top: 2px; color: var(--fg); }
-
-    .stack-footer{
-      display:flex;
-      justify-content:space-between;
-      gap: 10px;
-      align-items:center;
-      padding: 10px 12px;
-      border-top: 1px solid var(--line);
-      background: #fff;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .stack-footer .mono{ font-family: var(--mono); }
-
-    .dots{
-      display:flex;
-      gap: 8px;
-      align-items:center;
-      justify-content:flex-end;
-    }
-    .dotbtn{
-      width: 8px; height: 8px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: #fff;
-      cursor:pointer;
-      padding:0;
-    }
-    .dotbtn.active{
-      background: var(--blue);
-      border-color: rgba(37,99,235,.25);
-      box-shadow: 0 0 0 4px rgba(37,99,235,.10);
-    }
-
-    
-    /* =========================
-       Master-detail stacks
-       - left rail list (always visible)
-       - right detail (scroll-switch)
-       ========================= */
-    .md{
-      display:grid;
-      grid-template-columns: 360px 1fr;
-      gap: 0;
-      border: 1px solid var(--line);
-      border-radius: calc(var(--r) + 10px);
-      background:#fff;
-      overflow:hidden;
-      box-shadow: var(--shadow2);
-    }
-    @media (max-width: 1100px){ .md{ grid-template-columns: 320px 1fr; } }
-    @media (max-width: 960px){ .md{ grid-template-columns: 1fr; } }
-
-    .rail{
-      padding: 14px 12px;
-      border-right: 1px solid var(--line);
-      background: linear-gradient(180deg, #ffffff, #f8fafc);
-      display:flex;
-      flex-direction:column;
-      gap: 8px;
-      min-height: 78vh;
-    }
-    @media (max-width: 960px){
-      .rail{
-        min-height: unset;
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-        flex-direction: row;
-        overflow-x: auto;
-        gap: 10px;
-        -webkit-overflow-scrolling: touch;
-        scroll-snap-type: x mandatory;
-      }
-    }
-
-    .rail-item{
-      text-align:left;
-      cursor:pointer;
-      border: 1px solid var(--line);
-      background: #fff;
-      border-radius: 16px;
-      padding: 12px 12px 10px;
-      transition: border-color .14s ease, box-shadow .14s ease, transform .14s ease, background .14s ease;
-    }
-    .rail-item:hover{
-      transform: translateY(-1px);
-      border-color: rgba(37,99,235,.25);
-      box-shadow: var(--shadow2);
-    }
-    .rail-item.active{
-      border-color: rgba(37,99,235,.32);
-      background: rgba(37,99,235,.06);
-      box-shadow: 0 10px 28px rgba(37,99,235,.10);
-    }
-    .rail-title{
-      font-weight: 800;
-      font-size: 16.5px;
-      letter-spacing: .1px;
-    }
-    .rail-sub{
-      margin-top: 4px;
-      font-size: 13.5px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.35;
-    }
-    @media (max-width: 960px){
-      .rail-item{
-        flex: 0 0 auto;
-        width: 280px;
-        scroll-snap-align: start;
-      }
-    }
-
-    .detail-wrap{
-      display:flex;
-      flex-direction:column;
-      min-width: 0;
-      background:#fff;
-    }
-    .detail-viewport{
-      height: 78vh;
-      min-height: 520px;
-      max-height: 860px;
-      overflow:hidden;
-      position: relative;
-    }
-    @media (max-width: 960px){
-      .detail-viewport{ height: auto; min-height: unset; max-height: unset; overflow: visible; }
-    }
-    .detail-track{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      transform: translateY(0);
-      transition: transform .65s cubic-bezier(.2,.8,.2,1);
-      will-change: transform;
-    }
-    @media (max-width: 960px){
-      .detail-track{ position: static; transform:none !important; transition:none; }
-    }
-    .detail{
-      height: 78vh;
-      min-height: 520px;
-      max-height: 860px;
-      display:grid;
-      grid-template-columns: 1fr;
-      background:#fff;
-      border-top: 1px solid var(--line);
-    }
-    .detail:first-child{ border-top:0; }
-    @media (max-width: 960px){
-      .detail{ height: auto; min-height: unset; max-height: unset; }
-    }
-
-    .detail .media{
-      height: 52%;
-      min-height: 260px;
-      border-bottom: 1px solid var(--line);
-    }
-    @media (max-width: 960px){ .detail .media{ height: 220px; min-height: 220px; } }
-
-    .detail-body{
-      padding: 16px 18px 18px;
-      display:flex;
-      flex-direction:column;
-      gap: 10px;
-      overflow:auto;
-    }
-    @media (max-width: 960px){ .detail-body{ overflow: visible; } }
-
-    .detail-divider{
-      margin: 6px 0 2px;
-      border-top: 1px dashed rgba(148,163,184,.55);
-    }
-
-
-    /* =========================
-       Skills bento
-       ========================= */
-    .bento{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
-    }
-    @media (max-width: 980px){ .bento{ grid-template-columns: repeat(6, 1fr); } }
-    @media (max-width: 680px){ .bento{ grid-template-columns: repeat(1, 1fr); } }
-
-    .tile{
-      grid-column: span 6;
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      background: #fff;
-      box-shadow: 0 1px 0 rgba(2,6,23,.02);
-      padding: 16px;
-    }
-    .tile.small{ grid-column: span 4; }
-    .tile.wide{ grid-column: span 8; }
-    .tile.full{ grid-column: span 12; }
-    @media (max-width: 980px){
-      .tile.small, .tile.wide, .tile.full{ grid-column: span 6; }
-    }
-    @media (max-width: 680px){
-      .tile.small, .tile.wide, .tile.full{ grid-column: span 1; }
-    }
-    .tile .t{
-      display:flex; justify-content:space-between; gap:10px; align-items:flex-start; flex-wrap:wrap;
-      margin-bottom: 8px;
-    }
-    .tile .t .h{ font-weight: 760; }
-    .tile .t .s{ color: var(--muted); font-size: 13px; }
-
-    
-    /* =========================
-       Unified horizontal carousel (Skills / Extracurricular / My Daily)
-       - large cards, hover reveals story
-       ========================= */
-    .carousel{
-      padding: 14px 18px 18px;
-      overflow-x:auto;
-      display:flex;
-      gap: 14px;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      background: #fff;
-    }
-    .hcard{
-      position: relative;
-      flex: 0 0 auto;
-      width: 360px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      overflow:hidden;
-      background: #f8fafc;
-      box-shadow: 0 1px 0 rgba(2,6,23,.02);
-      scroll-snap-align: start;
-    }
-    .hcard.portrait{ width: 320px; }
-    .himg{
-      height: 240px;
-      background: linear-gradient(180deg, rgba(37,99,235,.10), rgba(255,255,255,0));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 12px;
-      position: relative;
-    }
-    .hcard.portrait .himg{ height: 320px; }
-    .himg img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .himg.ph{ background: linear-gradient(180deg, rgba(37,99,235,.12), rgba(255,255,255,0)); }
-    .hcap{
-      padding: 10px 12px 12px;
-      font-size: 14px;
-      font-weight: 750;
-      color: var(--fg);
-      background:#fff;
-    }
-    .hover{
-      position:absolute;
-      inset:0;
-      display:flex;
-      flex-direction:column;
-      justify-content:flex-end;
-      gap: 6px;
-      padding: 14px 14px 12px;
-      background: linear-gradient(180deg, rgba(255,255,255,0) 40%, rgba(255,255,255,.94) 78%);
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity .18s ease, transform .18s ease;
-      pointer-events:none;
-    }
-    .hcard:hover .hover{
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .ht{ font-weight: 800; font-size: 16px; }
-    .hd{ color: var(--muted); font-size: 13.5px; line-height: 1.4; }
-
-
-    
-    /* Publications inside detail */
-    .publist{
-      display:grid;
-      gap: 10px;
-      margin-top: 8px;
-    }
-    .pubitem{
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 12px 14px;
-      background:#fff;
-      transition: transform .14s ease, border-color .14s ease, box-shadow .14s ease;
-    }
-    .pubitem:hover{
-      transform: translateY(-1px);
-      border-color: rgba(37,99,235,.24);
-      box-shadow: var(--shadow2);
-      text-decoration:none;
-    }
-    .pubtitle{ font-weight: 800; }
-    .pubmeta{ color: var(--muted); font-size: 13px; margin-top: 2px; }
-    .publinks{ color: var(--blue); font-family: var(--mono); font-size: 12.5px; margin-top: 6px; }
-
-
-    /* =========================
-       My Daily (community style)
-       ========================= */
-    .daily{
-      border: 1px solid var(--line);
-      border-radius: calc(var(--r) + 10px);
-      background: #fff;
-      overflow:hidden;
-      box-shadow: var(--shadow2);
-    }
-    .daily-top{
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 0;
-      border-bottom: 1px solid var(--line);
-      background: #fff;
-    }
-    @media (max-width: 900px){ .daily-top{ grid-template-columns:1fr; } }
-
-    .daily-left{
-      padding: 18px 18px 16px;
-      border-right: 1px solid var(--line);
-    }
-    @media (max-width: 900px){ .daily-left{ border-right:0; border-bottom: 1px solid var(--line); } }
-
-    .daily-left h3{
-      margin:0;
-      font-size: 44px;
-      line-height: 1.05;
-      letter-spacing: -1px;
-    }
-    .daily-left h3 .blue{ color: var(--blue); }
-
-    .daily-right{
-      padding: 18px 18px 16px;
-      color: var(--muted);
-      display:flex;
-      align-items:flex-end;
-    }
-
-    .gallery{
-      padding: 14px 18px 18px;
-      overflow-x:auto;
-      display:flex;
-      gap: 12px;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      background: #fff;
-    }
-    .gcard{
-      flex: 0 0 auto;
-      width: 300px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      overflow:hidden;
-      background: #f8fafc;
-      box-shadow: 0 1px 0 rgba(2,6,23,.02);
-      scroll-snap-align: start;
-    }
-    .gcard .img{
-      height: 180px;
-      background: linear-gradient(180deg, rgba(37,99,235,.10), rgba(255,255,255,.0));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 12px;
-    }
-    .gcard img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .gcard .cap{
-      padding: 10px 12px;
-      font-size: 13px;
-      color: var(--muted);
-      background:#fff;
-    }
-
-    footer{
-      margin-top: 26px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 13px;
-      display:flex;
-      justify-content:space-between;
-      gap: 10px;
-      flex-wrap:wrap;
-    }
-
-    :focus-visible{
-      outline: 3px solid rgba(37,99,235,.20);
-      outline-offset: 3px;
-      border-radius: 10px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qifeng Yuan | Personal Homepage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <b>Qifeng (Tony) Yuan</b>
-        <span>cs/ece · ai4science · vlm · evaluation</span>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="#about">Qifeng Yuan</a>
+      <div class="nav-links">
+        <a href="#education">Education</a>
+        <a href="#research">Research</a>
+        <a href="#experience">Experience</a>
+        <a href="#photos">Photos</a>
       </div>
+    </nav>
+  </header>
 
-      <nav aria-label="Primary">
-        <a class="pill" href="#education">Education</a>
-        <a class="pill" href="#work">Work</a>
-        <a class="pill" href="#rp">Research & Projects</a>        <a class="pill" href="#honors">Honors</a>
-        <a class="pill" href="#skills">Skills</a>
-        <a class="pill" href="#extra">Extracurricular</a>
-        <a class="pill" href="#daily">My Daily</a>
-      </nav>
-    </div>
-  </div>
-
-  <main class="wrap" id="top">
-
-    <!-- HERO -->
-    <div class="hero">
-      <div>
-        <div class="kicker"><span class="dot"></span><span>portfolio</span><span style="color:var(--soft)">/</span><span style="font-family:var(--mono)">2026</span></div>
-        <h1><span class="grad">Build research-driven</span><br/>systems for AI & science.</h1>
-        <p class="subtitle">
-          ECE/CS student at Shanghai Jiao Tong University. I work on <b>AI4Science evaluation</b>, <b>VLM robustness</b>,
-          and research engineering. I also enjoy structured industry research and quantitative validation.
+  <main>
+    <section class="hero" id="about">
+      <div class="hero-copy">
+        <p class="eyebrow">Electronic & Computer Engineering · AI4Science · TMT Research</p>
+        <h1>Qifeng Yuan</h1>
+        <p class="intro">
+          I am an Electronic and Computer Engineering student at Shanghai Jiao Tong University,
+          with academic interests across artificial intelligence, visual evaluation for scientific
+          models, electronics, and industrial operations. My work spans AI4Science research,
+          experimental hardware design, and technology-sector equity research.
         </p>
-
-        <div class="cta">
-          <a class="btn primary" href="mailto:yuanqifeng@sjtu.edu.cn">Email <small>yuanqifeng@sjtu.edu.cn</small></a>
-          <a class="btn" href="https://github.com/qifengyuantony" target="_blank" rel="noreferrer">GitHub <small>@qifengyuantony</small></a>
-          <a class="btn" href="#rp">See work <small>↓</small></a>
-        </div>
-
-        <div style="margin-top:10px;color:var(--muted);font-size:13px;">
-          Location: Minhang, Shanghai · Phone: +86 173 0178 8372
+        <div class="contact-row" aria-label="Contact information">
+          <a href="mailto:yuanqifeng@sjtu.edu.cn">yuanqifeng@sjtu.edu.cn</a>
+          <span>Shanghai, China</span>
         </div>
       </div>
-
-      <aside class="hero-right" aria-label="Profile photo">
-        <div class="avatar">
-          <img src="assets/avatar.jpg" alt="Portrait of Qifeng (Tony) Yuan"
-               onerror="this.remove(); this.parentElement.querySelector('.ph').style.display='block';" />
-          <div class="ph" style="display:none;">
-            <b>Profile photo</b><br/>
-            Add <span style="font-family:var(--mono)">assets/avatar.jpg</span>
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <!-- Education -->
-    <section>
-      <div class="anchor" id="education"></div>
-      <div class="section-head">
-        <h2><span class="h2dot"></span> Education</h2>
-        <div class="hint">Scroll inside the block to switch items (wheel / trackpad).</div>
-      </div>
-
-      
-      <div class="md" data-md="education">
-        <div class="rail" aria-label="education items">
-          
-          <button class="rail-item active" type="button" data-go="0" aria-label="Show Shanghai Jiao Tong University">
-            <div class="rail-title">Shanghai Jiao Tong University</div>
-            <div class="rail-sub">B.Eng. in Electrical and Computer Engineering · GPA 3.52/4.00</div>
-          </button>
-        
-          <button class="rail-item" type="button" data-go="1" aria-label="Show Technische Universität Berlin">
-            <div class="rail-title">Technische Universität Berlin</div>
-            <div class="rail-sub">Exchange Student</div>
-          </button>
-        
-          <button class="rail-item" type="button" data-go="2" aria-label="Show University of Michigan, Ann Arbor">
-            <div class="rail-title">University of Michigan, Ann Arbor</div>
-            <div class="rail-sub">Planned / Future Study</div>
-          </button>
-        
-        </div>
-
-        <div class="detail-wrap">
-          <div class="detail-viewport" data-viewport>
-            <div class="detail-track" data-track>
-              
-          <article class="detail" data-img="" aria-label="Shanghai Jiao Tong University detail">
-            <div class="media ph"><span>Optional image: set data-img</span></div>
-            <div class="detail-body">
-              <div class="panel-title">
-                <div>
-                  <div class="role">Shanghai Jiao Tong University</div>
-                  <div class="org">B.Eng. in Electrical and Computer Engineering · GPA 3.52/4.00</div>
-                </div>
-                <div class="time">Sep 2024 — Sep 2028</div>
-              </div>
-
-              <ul><li>Core: algorithms, probability, linear algebra, discrete math.</li><li>Interest: ML systems, evaluation, VLM robustness for science.</li></ul>
-              <div class="tags"><span class="tag">CS</span><span class="tag">ECE</span><span class="tag">AI4Science</span></div>
-
-              <div class="detail-divider"></div>
-
-              <div class="desc-title">
-                <b>What I did</b>
-                <span>One crisp paragraph beats 5 vague bullets.</span>
-              </div>
-              <div class="desc-text">Replace this with 2–4 sentences about your strongest academic outcomes (rank / key projects / lab work).</div>
-
-              <div class="metric"><div class="mcard"><div class="k">Focus</div><div class="v">AI4Science Eval</div></div><div class="mcard"><div class="k">Stack</div><div class="v">Python / PyTorch</div></div><div class="mcard"><div class="k">Output</div><div class="v">Pipelines</div></div></div>
-            </div>
-          </article>
-        
-          <article class="detail" data-img="" aria-label="Technische Universität Berlin detail">
-            <div class="media ph"><span>Optional image: set data-img</span></div>
-            <div class="detail-body">
-              <div class="panel-title">
-                <div>
-                  <div class="role">Technische Universität Berlin</div>
-                  <div class="org">Exchange Student</div>
-                </div>
-                <div class="time">Jan 2025</div>
-              </div>
-
-              <ul><li>International exposure; broadened research taste & collaboration style.</li><li>Add 1–2 specific courses or mini-projects to make it concrete.</li></ul>
-              <div class="tags"><span class="tag">Exchange</span><span class="tag">EU</span></div>
-
-              <div class="detail-divider"></div>
-
-              <div class="desc-title">
-                <b>Impact</b>
-                <span>What changed after the experience</span>
-              </div>
-              <div class="desc-text">Replace with one paragraph: what skills improved, what you learned, and what you built.</div>
-
-              <div class="metric"><div class="mcard"><div class="k">Theme</div><div class="v">Global view</div></div><div class="mcard"><div class="k">Collab</div><div class="v">Teamwork</div></div><div class="mcard"><div class="k">Takeaway</div><div class="v">Taste</div></div></div>
-            </div>
-          </article>
-        
-          <article class="detail" data-img="" aria-label="University of Michigan, Ann Arbor detail">
-            <div class="media ph"><span>Optional image: set data-img</span></div>
-            <div class="detail-body">
-              <div class="panel-title">
-                <div>
-                  <div class="role">University of Michigan, Ann Arbor</div>
-                  <div class="org">Planned / Future Study</div>
-                </div>
-                <div class="time">TBD</div>
-              </div>
-
-              <ul><li>Replace with your actual plan: major/minor, timeline, and focus.</li><li>Add 1–2 target courses or research directions.</li></ul>
-              <div class="tags"><span class="tag">Plan</span><span class="tag">Data Science</span><span class="tag">Business</span></div>
-
-              <div class="detail-divider"></div>
-
-              <div class="desc-title">
-                <b>Goals</b>
-                <span>What you want to achieve there</span>
-              </div>
-              <div class="desc-text">Replace with: research interests, internship goals, and what you’ll contribute.</div>
-
-              <div class="metric"><div class="mcard"><div class="k">Focus</div><div class="v">DS + CS</div></div><div class="mcard"><div class="k">Target</div><div class="v">Research</div></div><div class="mcard"><div class="k">Plan</div><div class="v">2026+</div></div></div>
-            </div>
-          </article>
-        
-            </div>
-          </div>
-
-          <div class="stack-footer">
-            <div>Tip: click left list or scroll inside right panel to switch items.</div>
-            <div class="dots" data-dots></div>
-          </div>
-        </div>
-      </div>
-    
+      <figure class="portrait-wrap">
+        <img src="assets/profession.jpg" alt="Portrait of Qifeng Yuan" class="portrait">
+      </figure>
     </section>
 
-    <!-- Work -->
-    <section>
-      <div class="anchor" id="work"></div>
-      <div class="section-head">
-        <h2><span class="h2dot"></span> Work</h2>
-        <div class="hint">Same scroll-to-switch interaction.</div>
+    <section class="section" id="education">
+      <div class="section-heading">
+        <p class="section-kicker">Academic Background</p>
+        <h2>University</h2>
       </div>
-
-      
-      <div class="md" data-md="work">
-        <div class="rail" aria-label="work items">
-          
-          <button class="rail-item active" type="button" data-go="0" aria-label="Show Changjiang Securities">
-            <div class="rail-title">Changjiang Securities</div>
-            <div class="rail-sub">Industry Researcher</div>
-          </button>
-        
-        </div>
-
-        <div class="detail-wrap">
-          <div class="detail-viewport" data-viewport>
-            <div class="detail-track" data-track>
-              
-          <article class="detail" data-img="" aria-label="Changjiang Securities detail">
-            <div class="media ph"><span>Optional image: set data-img</span></div>
-            <div class="detail-body">
-              <div class="panel-title">
-                <div>
-                  <div class="role">Changjiang Securities</div>
-                  <div class="org">Industry Researcher</div>
-                </div>
-                <div class="time">Dec 2025 — Apr 2026</div>
-              </div>
-
-              <ul><li>Built structured industry/valuation analysis; turned messy inputs into decision-ready outputs.</li><li>Evidence-first writing: tables, charts, clear assumptions.</li></ul>
-              <div class="tags"><span class="tag">Research</span><span class="tag">Valuation</span><span class="tag">Writing</span></div>
-
-              <div class="detail-divider"></div>
-
-              <div class="desc-title">
-                <b>Outcome</b>
-                <span>Show impact with numbers if possible</span>
-              </div>
-              <div class="desc-text">Replace with: reports delivered, coverage topics, and a highlight insight you’re proud of.</div>
-
-              <div class="metric"><div class="mcard"><div class="k">Deliverables</div><div class="v">Reports</div></div><div class="mcard"><div class="k">Tools</div><div class="v">Excel</div></div><div class="mcard"><div class="k">Style</div><div class="v">Structured</div></div></div>
-            </div>
-          </article>
-        
-            </div>
+      <div class="card-grid">
+        <article class="info-card">
+          <div class="card-topline">
+            <h3>Shanghai Jiao Tong University</h3>
+            <span>Sep 2024 - Sep 2026</span>
           </div>
-
-          <div class="stack-footer">
-            <div>Tip: click left list or scroll inside right panel to switch items.</div>
-            <div class="dots" data-dots></div>
+          <p class="meta">B.S. track, Electronic and Computer Engineering</p>
+          <p>GPA: 3.52</p>
+        </article>
+        <article class="info-card">
+          <div class="card-topline">
+            <h3>University of Michigan, Ann Arbor</h3>
+            <span>From Sep 2026</span>
           </div>
-        </div>
-      </div>
-    
-    </section>
-
-    <!-- Research & Projects (merged) -->
-    <section>
-      <div class="anchor" id="rp"></div>
-      <div class="section-head">
-        <h2><span class="h2dot"></span> Research & Projects</h2>
-        <div class="hint">Each item: left = what/where, right = visual + what you achieved.</div>
-      </div>
-
-      
-      <div class="md" data-md="rp">
-        <div class="rail" aria-label="rp items">
-          
-          <button class="rail-item active" type="button" data-go="0" aria-label="Show Shanghai AI Laboratory">
-            <div class="rail-title">Shanghai AI Laboratory</div>
-            <div class="rail-sub">AI4Science Agent Evaluation</div>
-          </button>
-        
-          <button class="rail-item" type="button" data-go="1" aria-label="Show UM–SJTU Joint Institute">
-            <div class="rail-title">UM–SJTU Joint Institute</div>
-            <div class="rail-sub">Experimental Maglev Linear Motion Platform</div>
-          </button>
-        
-        
-          <button class="rail-item" type="button" data-go="2" aria-label="Show Publications">
-            <div class="rail-title">Publications</div>
-            <div class="rail-sub">Selected papers / preprints / releases</div>
-          </button>
-</div>
-
-        <div class="detail-wrap">
-          <div class="detail-viewport" data-viewport>
-            <div class="detail-track" data-track>
-              
-          <article class="detail" data-img="" aria-label="Shanghai AI Laboratory detail">
-            <div class="media ph"><span>Optional image: set data-img</span></div>
-            <div class="detail-body">
-              <div class="panel-title">
-                <div>
-                  <div class="role">Shanghai AI Laboratory</div>
-                  <div class="org">AI4Science Agent Evaluation</div>
-                </div>
-                <div class="time">Dec 2025 — Present</div>
-              </div>
-
-              <ul><li>Benchmarked domain-specific models vs general-purpose VLMs on subject benchmarks.</li><li>Designed perturbation-based robustness tests for scientific agent reliability.</li></ul>
-              <div class="tags"><span class="tag">VLM</span><span class="tag">Robustness</span><span class="tag">Eval</span></div>
-
-              <div class="detail-divider"></div>
-
-              <div class="desc-title">
-                <b>Result</b>
-                <span>e.g., +X% accuracy under noise</span>
-              </div>
-              <div class="desc-text">Add 2–3 concrete outcomes: dataset size, number of models, key findings, any open-source artifacts.</div>
-
-              <div class="metric"><div class="mcard"><div class="k">Models</div><div class="v">10+</div></div><div class="mcard"><div class="k">Bench</div><div class="v">Phys/Med</div></div><div class="mcard"><div class="k">Output</div><div class="v">Pipelines</div></div></div>
-            </div>
-          </article>
-        
-          <article class="detail" data-img="assets/projects/maglev.jpg" aria-label="UM–SJTU Joint Institute detail">
-            <div class="media"><img src="assets/projects/maglev.jpg" alt="UM–SJTU Joint Institute cover"></div>
-            <div class="detail-body">
-              <div class="panel-title">
-                <div>
-                  <div class="role">UM–SJTU Joint Institute</div>
-                  <div class="org">Experimental Maglev Linear Motion Platform</div>
-                </div>
-                <div class="time">Mar 2025 — Apr 2026</div>
-              </div>
-
-              <ul><li>Designed analog circuits in LTSpice to validate performance and stability.</li><li>Optimized circuit parameters in MATLAB; built schematic & PCB in Altium.</li></ul>
-              <div class="tags"><span class="tag">LTSpice</span><span class="tag">MATLAB</span><span class="tag">Altium</span></div>
-
-              <div class="detail-divider"></div>
-
-              <div class="desc-title">
-                <b>What I delivered</b>
-                <span>Simulation → optimization → hardware</span>
-              </div>
-              <div class="desc-text">Replace with your best “engineering story”: constraints, iterations, and final performance.</div>
-
-              <div class="metric"><div class="mcard"><div class="k">Artifact</div><div class="v">PCB</div></div><div class="mcard"><div class="k">Method</div><div class="v">Optimize</div></div><div class="mcard"><div class="k">Tooling</div><div class="v">Altium</div></div></div>
-            </div>
-          </article>
-        
-            
-          <article class="detail" data-img="" data-kind="pub" aria-label="Publications detail">
-            <div class="media ph"><span>Optional image: your paper cover collage</span></div>
-            <div class="detail-body pub">
-              <div class="panel-title">
-                <div>
-                  <div class="role">Publications</div>
-                  <div class="org">Selected papers · preprints · technical reports · open-source releases</div>
-                </div>
-                <div class="time">Updated: 2026</div>
-              </div>
-
-              <div class="publist">
-                <a class="pubitem" href="#" onclick="return false;">
-                  <div class="pubtitle">Paper Title (placeholder)</div>
-                  <div class="pubmeta">Authors · Venue · Year</div>
-                  <div class="publinks">PDF · Code · Slides</div>
-                </a>
-                <a class="pubitem" href="#" onclick="return false;">
-                  <div class="pubtitle">Paper Title (placeholder)</div>
-                  <div class="pubmeta">Authors · Venue · Year</div>
-                  <div class="publinks">PDF · Code</div>
-                </a>
-                <a class="pubitem" href="#" onclick="return false;">
-                  <div class="pubtitle">Open-source Release (placeholder)</div>
-                  <div class="pubmeta">Project / Repo · Date</div>
-                  <div class="publinks">GitHub · Demo</div>
-                </a>
-              </div>
-
-              <div style="color:var(--muted);font-size:13px;margin-top:6px;">
-                Tip: If you don’t have papers yet, list <b>preprints</b>, <b>work-in-progress</b>, or <b>public artifacts</b>.
-              </div>
-            </div>
-          </article>
-</div>
+          <p class="meta">Industrial Operations Engineering, Business minor</p>
+          <p>GPA: N/A</p>
+        </article>
+        <article class="info-card">
+          <div class="card-topline">
+            <h3>Technical University of Berlin</h3>
+            <span>Jan 2025</span>
           </div>
-
-          <div class="stack-footer">
-            <div>Tip: click left list or scroll inside right panel to switch items.</div>
-            <div class="dots" data-dots></div>
-          </div>
-        </div>
-      </div>
-    
-    </section>
-
-    <!-- Honors -->
-    <section>
-      <div class="anchor" id="honors"></div>
-      <div class="section-head">
-        <h2><span class="h2dot"></span> Honors</h2>
-        <div class="hint">Make each line convey why it matters.</div>
-      </div>
-
-      <div class="stack" style="padding:16px 18px;">
-        <ul>
-          <li><b>International Physics Competition</b> — Silver Medal (Jan 2026)</li>
-          <li><b>MCM (Mathematical Contest in Modeling)</b> — (2025)</li>
-          <li><b>Best Innovation Award</b> — Summer Design Expo (2025)</li>
-        </ul>
+          <p class="meta">Exchange program</p>
+          <p>Coursework: German language</p>
+        </article>
       </div>
     </section>
 
-    <!-- Skills (carousel) -->
-    <section>
-      <div class="anchor" id="skills"></div>
-      <div class="section-head">
-        <h2><span class="h2dot"></span> Skills</h2>
-        <div class="hint">Hover to reveal a short story. Scroll sideways.</div>
+    <section class="section courses-section" id="courses">
+      <div class="section-heading">
+        <p class="section-kicker">Selected Coursework</p>
+        <h2>Major Courses</h2>
       </div>
-
-      <div class="carousel">
-        <div class="hcard portrait">
-          <div class="himg ph">image (optional)</div>
-          <div class="hcap">Programming</div>
-          <div class="hover">
-            <div class="ht">Programming</div>
-            <div class="hd">Built research pipelines and automation scripts; comfortable with Python/C/C++.</div>
-          </div>
-        </div>
-
-        <div class="hcard portrait">
-          <div class="himg ph">image (optional)</div>
-          <div class="hcap">Deep Learning</div>
-          <div class="hover">
-            <div class="ht">Deep Learning</div>
-            <div class="hd">PyTorch training/inference; evaluation harnesses; robust benchmarking.</div>
-          </div>
-        </div>
-
-        <div class="hcard portrait">
-          <div class="himg ph">image (optional)</div>
-          <div class="hcap">Data & Viz</div>
-          <div class="hover">
-            <div class="ht">Data & Viz</div>
-            <div class="hd">Pandas/NumPy; report-ready tables & figures; reproducible experiments.</div>
-          </div>
-        </div>
-
-        <div class="hcard portrait">
-          <div class="himg ph">image (optional)</div>
-          <div class="hcap">Hardware Tools</div>
-          <div class="hover">
-            <div class="ht">Hardware Tools</div>
-            <div class="hd">LTSpice/Altium/SolidWorks; from simulation to PCB layout.</div>
-          </div>
-        </div>
+      <div class="course-board">
+        <article class="course-group">
+          <h3>Computer Science & Artificial Intelligence</h3>
+          <ul>
+            <li><span>Data Structures and Algorithms</span><em>SJTU</em></li>
+          </ul>
+        </article>
+        <article class="course-group">
+          <h3>Electronics & Electrical Engineering</h3>
+          <ul>
+            <li><span>Electronic Circuits</span><em>SJTU</em></li>
+            <li><span>Introduction to Signals and Systems</span><em>SJTU</em></li>
+            <li><span>Electromagnetics</span><em>SJTU</em></li>
+          </ul>
+        </article>
+        <article class="course-group">
+          <h3>Intellectual Breadth</h3>
+          <ul>
+            <li><span>Second Language Acquisition</span><em>SJTU</em></li>
+            <li><span>Introduction to Chinese Theater: Text, Performance, and History</span><em>SJTU</em></li>
+            <li><span>German</span><em>TUB</em></li>
+          </ul>
+        </article>
+        <article class="course-group">
+          <h3>Math</h3>
+          <ul>
+            <li><span>Linear Algebra</span><em>SJTU</em></li>
+            <li><span>Discrete Math</span><em>SJTU</em></li>
+            <li><span>Engineering Probability Methods</span><em>SJTU</em></li>
+          </ul>
+        </article>
+        <article class="course-group">
+          <h3>Business</h3>
+          <ul>
+            <li><span>Business Minor Coursework</span><em>UM</em></li>
+          </ul>
+        </article>
       </div>
     </section>
 
-    <!-- Extracurricular Activities -->
-    <section>
-      <div class="anchor" id="extra"></div>
-      <div class="section-head">
-        <h2><span class="h2dot"></span> Extracurricular Activities</h2>
-        <div class="hint">Image-first, hover for context.</div>
+    <section class="section" id="research">
+      <div class="section-heading">
+        <p class="section-kicker">Selected Projects</p>
+        <h2>Research Experience</h2>
       </div>
-
-      <div class="carousel">
-        <div class="hcard">
-          <div class="himg ph">image (optional)</div>
-          <div class="hcap">Student Union</div>
-          <div class="hover">
-            <div class="ht">Student Union</div>
-            <div class="hd">Organized career events and coordinated speakers; focused on execution.</div>
+      <div class="timeline">
+        <article class="info-card">
+          <div class="card-topline">
+            <h3>Shanghai AI Laboratory</h3>
+            <span>Dec 2025 - Aug 2026</span>
           </div>
-        </div>
-
-        <div class="hcard">
-          <div class="himg ph">image (optional)</div>
-          <div class="hcap">Buddy Program</div>
-          <div class="hover">
-            <div class="ht">Buddy Program</div>
-            <div class="hd">Helped incoming international students settle in and connect socially.</div>
+          <p class="meta">AI4Science Large Model Vision Evaluation</p>
+          <ul>
+            <li>Compared specialist and general-purpose large models across benchmarks in multiple scientific disciplines.</li>
+            <li>Ran 30 noise algorithms and 10 enhancement algorithms to evaluate model robustness under varied visual transformations.</li>
+            <li>Proposed a new enhancement algorithm based on comparative performance patterns.</li>
+            <li>Expected outputs include one npj journal paper, one invention patent as lead contributor, and one first-author EMNLP submission.</li>
+          </ul>
+          <p class="mentors">Advisors: Academician Wenjun Zhang, Prof. Guangtao Zhai, Jianbo Zhang, Chunyi Li</p>
+        </article>
+        <article class="info-card">
+          <div class="card-topline">
+            <h3>UM-SJTU Joint Institute</h3>
+            <span>Sep 2024 - Sep 2025</span>
           </div>
-        </div>
-
-        <div class="hcard">
-          <div class="himg ph">image (optional)</div>
-          <div class="hcap">Talks / Meetups</div>
-          <div class="hover">
-            <div class="ht">Talks / Meetups</div>
-            <div class="hd">Attended tech talks; shared notes with peers; learned from communities.</div>
-          </div>
-        </div>
+          <p class="meta">Design of an Experimental Magnetic Levitation Linear Motion Platform</p>
+          <ul>
+            <li>Designed analog circuits in LTspice to evaluate performance and validate design feasibility.</li>
+            <li>Optimized circuit parameters in MATLAB to maximize output signal amplitude.</li>
+            <li>Created circuit schematics and PCB layouts in Altium Designer.</li>
+          </ul>
+        </article>
       </div>
     </section>
 
-<!-- My Daily (replaces My Hobby) -->
-    <section>
-      <div class="anchor" id="daily"></div>
-      <div class="section-head">
-        <h2><span class="h2dot"></span> My Daily</h2>
-        <div class="hint">Like Dify “community” block: title left, text right, image strip below.</div>
+    <section class="section" id="experience">
+      <div class="section-heading">
+        <p class="section-kicker">Industry</p>
+        <h2>Work Experience</h2>
       </div>
-
-      <div class="daily">
-        <div class="daily-top">
-          <div class="daily-left">
-            <h3>My Daily,<br/><span class="blue">keep building</span></h3>
+      <div class="timeline">
+        <article class="info-card">
+          <div class="card-topline">
+            <h3>Changjiang Securities Research Institute</h3>
+            <span>Jan 2026 - Apr 2026</span>
           </div>
-          <div class="daily-right">
-            Replace this text with a short paragraph: what your everyday looks like (research, reading, gym, photography, etc.),
-            and how it supports your long-term goals.
-          </div>
-        </div>
-
-        
-        <div class="carousel">
-          <div class="hcard">
-            <div class="himg ph">daily_1 (optional)</div>
-            <div class="hcap">Travelling</div>
-            <div class="hover">
-              <div class="ht">Travelling</div>
-              <div class="hd">Shot in XX (place) — exploring local streets and collecting small stories.</div>
-            </div>
-          </div>
-          <div class="hcard">
-            <div class="himg ph">daily_2 (optional)</div>
-            <div class="hcap">Photography</div>
-            <div class="hover">
-              <div class="ht">Photography</div>
-              <div class="hd">Captured at XX time — practicing composition and light.</div>
-            </div>
-          </div>
-          <div class="hcard">
-            <div class="himg ph">daily_3 (optional)</div>
-            <div class="hcap">Reading</div>
-            <div class="hover">
-              <div class="ht">Reading</div>
-              <div class="hd">A quiet hour — papers, notes, and reflective thinking.</div>
-            </div>
-          </div>
-          <div class="hcard">
-            <div class="himg ph">daily_4 (optional)</div>
-            <div class="hcap">Sports</div>
-            <div class="hover">
-              <div class="ht">Sports</div>
-              <div class="hd">Training day — keeping energy and discipline.</div>
-            </div>
-          </div>
-        </div>
+          <p class="meta">TMT Industry Research, Communications Team</p>
+          <ul>
+            <li>Participated in internal research meetings and produced 50+ weekly reports, meeting notes, and due-diligence materials.</li>
+            <li>Prepared 10+ client-facing materials and two in-depth roadshow decks.</li>
+            <li>Contributed to or led three deep-dive reports on liquid cooling, Dawning Technology, and overseas opportunities for Chinese liquid-cooling firms through the lens of optical modules.</li>
+          </ul>
+        </article>
       </div>
     </section>
 
+    <section class="section" id="activities">
+      <div class="section-heading">
+        <p class="section-kicker">Community</p>
+        <h2>Extracurricular Activities</h2>
+      </div>
+      <div class="card-grid two-col">
+        <article class="info-card">
+          <div class="card-topline">
+            <h3>UM Exchange Students Summer Buddy</h3>
+            <span>2025</span>
+          </div>
+          <p>Supported University of Michigan exchange students during the summer program.</p>
+        </article>
+        <article class="info-card">
+          <div class="card-topline">
+            <h3>Teaching Assistant, Introduction to Engineering</h3>
+            <span>2026</span>
+          </div>
+          <p>Served as a teaching assistant at the UM-SJTU Joint Institute.</p>
+        </article>
+      </div>
+    </section>
 
-    <footer>
-      <div>© <span id="y"></span> Qifeng (Tony) Yuan · GitHub Pages</div>
-      <div style="font-family:var(--mono);"><a href="#top">back_to_top()</a></div>
-    </footer>
+    <section class="section" id="honors">
+      <div class="section-heading">
+        <p class="section-kicker">Recognition</p>
+        <h2>Honors and Awards</h2>
+      </div>
+      <div class="card-grid two-col">
+        <article class="info-card award-card">
+          <span>2026</span>
+          <h3>Silver Medal, International University Physics Competition</h3>
+        </article>
+        <article class="info-card award-card">
+          <span>2025</span>
+          <h3>Successful Participant, Mathematical Contest in Modeling</h3>
+        </article>
+      </div>
+    </section>
 
+    <section class="section photos-section" id="photos">
+      <div class="section-heading">
+        <p class="section-kicker">Life Beyond the Page</p>
+        <h2>Photos</h2>
+      </div>
+      <div class="photo-wall" id="photo-wall" aria-live="polite"></div>
+    </section>
   </main>
 
-  <script>
-    // -------------------------
-    // 1) Active nav highlight
-    // -------------------------
-    const pills = Array.from(document.querySelectorAll('nav .pill'));
-    const ids = pills.map(a => a.getAttribute('href')).filter(Boolean);
-    const anchors = ids.map(id => document.querySelector(id)).filter(Boolean);
+  <footer class="footer">
+    <p>© 2026 Qifeng Yuan. Built as a static personal homepage.</p>
+  </footer>
 
-    const navObs = new IntersectionObserver((entries) => {
-      const vis = entries.filter(e => e.isIntersecting)
-        .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!vis) return;
-      const id = '#' + vis.target.id;
-      pills.forEach(p => p.classList.toggle('active', p.getAttribute('href') === id));
-    }, { rootMargin: '-20% 0px -70% 0px', threshold: [0.05, 0.12, 0.2] });
-    anchors.forEach(el => navObs.observe(el));
-
-    // -------------------------
-    // 2) Master-detail scroll-to-switch
-    //    - left rail always visible; click to switch right detail
-    //    - wheel inside right panel switches items; rail highlights
-    // -------------------------
-    function setupMD(md){
-      const rail = md.querySelector('.rail');
-      const items = Array.from(md.querySelectorAll('.rail-item'));
-      const viewport = md.querySelector('[data-viewport]');
-      const track = md.querySelector('[data-track]');
-      const details = Array.from(md.querySelectorAll('.detail'));
-      const dots = md.querySelector('[data-dots]');
-      if (!rail || items.length === 0 || !viewport || !track || details.length === 0 || !dots) return;
-
-      const isMobile = () => window.matchMedia('(max-width: 960px)').matches;
-
-      let idx = 0;
-      let busy = false;
-
-      // dots
-      dots.innerHTML = '';
-      const dotBtns = details.map((_, i) => {
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'dotbtn' + (i === 0 ? ' active' : '');
-        b.setAttribute('aria-label', 'Go to item ' + (i+1));
-        b.addEventListener('click', () => go(i, true));
-        dots.appendChild(b);
-        return b;
-      });
-
-      function setActive(){
-        items.forEach((b,i) => b.classList.toggle('active', i === idx));
-        dotBtns.forEach((b,i) => b.classList.toggle('active', i === idx));
-      }
-
-      function applyTransform(){
-        if (isMobile()){
-          track.style.transform = 'none';
-          setActive();
-          return;
-        }
-        const h = viewport.clientHeight;
-        track.style.transform = `translateY(${-idx * h}px)`;
-        setActive();
-      }
-
-      function go(next, scrollRail){
-        if (isMobile()){
-          idx = Math.max(0, Math.min(details.length - 1, next));
-          // On mobile, just scroll to the detail block
-          details[idx].scrollIntoView({behavior:'smooth', block:'start'});
-          setActive();
-          return;
-        }
-        const clamped = Math.max(0, Math.min(details.length - 1, next));
-        if (clamped === idx) return;
-        if (busy) return;
-        busy = true;
-        idx = clamped;
-        applyTransform();
-
-        if (scrollRail){
-          const el = items[idx];
-          // keep active item visible in rail
-          el.scrollIntoView({behavior:'smooth', block:'nearest', inline:'nearest'});
-        }
-        window.setTimeout(() => { busy = false; }, 700);
-      }
-
-      // click rail
-      items.forEach((b) => {
-        const i = Number(b.getAttribute('data-go') || '0');
-        b.addEventListener('click', () => go(i, false));
-      });
-
-      // wheel inside viewport
-      function onWheel(e){
-        if (isMobile()) return;
-        const rect = viewport.getBoundingClientRect();
-        const inside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
-        if (!inside) return;
-
-        e.preventDefault();
-        const dy = e.deltaY;
-        if (Math.abs(dy) < 6) return;
-        if (dy > 0) go(idx + 1, true);
-        else go(idx - 1, true);
-      }
-      viewport.addEventListener('wheel', onWheel, { passive:false });
-
-      // Set images from data-img on detail
-      details.forEach(d => {
-        const src = (d.getAttribute('data-img') || '').trim();
-        const media = d.querySelector('.media');
-        if (!media) return;
-        if (!src) return;
-        let img = media.querySelector('img');
-        if (!img){
-          img = document.createElement('img');
-          img.alt = 'Cover image';
-          media.innerHTML = '';
-          media.appendChild(img);
-        }
-        media.classList.remove('ph');
-        img.src = src;
-        img.addEventListener('error', () => {
-          media.classList.add('ph');
-          media.innerHTML = '<span>Image not found</span>';
-        });
-      });
-
-      window.addEventListener('resize', applyTransform, { passive:true });
-      applyTransform();
-    }
-
-    document.querySelectorAll('[data-md]').forEach(setupMD);
-
-
-    // -------------------------
-    // 3) Optional images in My Daily gallery
-    //    Replace placeholder cards with <img> if you add images.
-    //    Example:
-    //      <img src="assets/daily/1.jpg" alt="...">
-    // -------------------------
-
-    document.getElementById('y').textContent = new Date().getFullYear();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
