@@ -229,6 +229,10 @@ h1 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+#activities .card-grid {
+  row-gap: 26px;
+}
+
 .info-card,
 .course-group {
   position: relative;
