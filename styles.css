@@ -101,42 +101,52 @@ h1 {
   overflow-wrap: break-word;
 }
 
-/* Contact links pair each icon with a visible label. */
+/* Keep each icon and its label together; never constrain a link to icon-only width. */
 .profile-links {
   grid-area: links;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px clamp(16px, 2.2vw, 24px);
+  gap: 8px 24px;
   margin: 24px 0 0;
   font-size: 16px;
+  line-height: 1.5;
 }
 
-.profile-links a {
-  display: inline-flex;
-  flex: 0 0 auto;
+.profile-links > .contact-link {
+  display: inline-grid;
+  grid-template-columns: 22px max-content;
   align-items: center;
-  gap: 8px;
+  column-gap: 8px;
+  flex: 0 0 auto;
+  width: max-content;
   min-height: 44px;
-  line-height: 1.4;
+  margin: 0;
+  padding: 0;
+  line-height: 24px;
   white-space: nowrap;
   border-radius: 4px;
 }
 
-.profile-links a:hover {
+.profile-links > .contact-link:hover {
   text-decoration: none;
 }
 
-.profile-links a:hover span {
+.contact-link > span {
+  display: block;
+  line-height: 24px;
+}
+
+.contact-link:hover > span {
   text-decoration: underline;
   text-underline-offset: 0.18em;
 }
 
-.profile-links svg {
+.contact-link > svg {
   display: block;
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0;
 }
 
 .portrait-frame {
