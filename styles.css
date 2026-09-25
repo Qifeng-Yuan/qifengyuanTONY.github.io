@@ -101,29 +101,35 @@ h1 {
   overflow-wrap: break-word;
 }
 
-/* Icon-only contact links: Email, CV, LinkedIn. */
+/* Contact links pair each icon with a visible label. */
 .profile-links {
   grid-area: links;
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
-  margin: 24px 0 0 -10px;
+  gap: 4px clamp(16px, 2.2vw, 24px);
+  margin: 24px 0 0;
+  font-size: 16px;
 }
 
 .profile-links a {
   display: inline-flex;
-  flex: 0 0 44px;
+  flex: 0 0 auto;
   align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  line-height: 1;
+  gap: 8px;
+  min-height: 44px;
+  line-height: 1.4;
+  white-space: nowrap;
   border-radius: 4px;
 }
 
 .profile-links a:hover {
   text-decoration: none;
+}
+
+.profile-links a:hover span {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .profile-links svg {
