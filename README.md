@@ -3,23 +3,30 @@
 A static, responsive homepage with three sections: a one-paragraph profile,
 News, and Publications. No build tools, framework, external fonts, or analytics.
 
+## Contact links
+
+The profile shows three inline SVG icons: **Email**, **CV**, and **LinkedIn**.
+They have accessible names, hover titles, and 44 × 44 px click/tap targets.
+Edit their destinations in `index.html`; no icon font or external library is needed.
+The LinkedIn destination is taken from the owner's supplied CV.
+
 ## Update your photograph
 
-Replace `assets/portrait.jpg` with a real JPEG. Use a **3:4 width-to-height ratio**,
+Replace `assets/portrait.png` with a real PNG. Use a **3:4 width-to-height ratio**,
 for example 900 × 1200 px. It displays at 240 × 320 px on a wide screen and scales
 down on smaller screens. CSS uses `object-fit: cover` so the photo never stretches.
-The initial `portrait.jpg` is a copy of the existing `assets/profession.jpg`;
-the original and all photo-wall assets are preserved.
+The homepage now uses the owner's newly uploaded PNG. The older
+`assets/portrait.jpg` and `assets/profession.jpg` are not modified by this update.
 
 ## Add or replace your CV
 
-Upload your public PDF to **`assets/cv.pdf`**. Keep the spelling and case exact.
-The CV control automatically becomes a blue link when the PDF is available,
-and opens it in a new tab. Until then it is inactive, so it cannot lead to a 404.
-The PDF itself has not been added in this redesign commit.
+Upload your public PDF to **`assets/resume.pdf`**. Keep the spelling and case exact.
+The CV icon links directly to the owner's uploaded `assets/resume.pdf` and opens
+it in a new tab. The link also works when JavaScript is disabled.
+The PDF itself is preserved unchanged by this update.
 
 In the GitHub repository, open `assets`, choose **Add file → Upload files**,
-and upload `cv.pdf` and/or `portrait.jpg`. Updating an existing filename replaces
+and upload `resume.pdf` and/or `portrait.png`. Updating an existing filename replaces
 that file in the new commit. Use a public-safe CV: the published file is public.
 
 ## Edit the profile or News
@@ -59,19 +66,19 @@ From the repository root:
 python -m http.server 8000
 ```
 
-Open `http://localhost:8000`. A local HTTP server is needed for the optional CV
-check and publication data; the main profile and News do not depend on JavaScript.
+Open `http://localhost:8000`. A local HTTP server is needed for publication data;
+the profile, contact links, and News do not depend on JavaScript.
 All asset paths are relative, so the site works at a domain root or a project
 subdirectory without changing URLs. Keep the existing GitHub Pages configuration.
 
 ## Files
 
-- `index.html`: profile and News; Publications container.
+- `index.html`: profile, contact icons, and News; Publications container.
 - `styles.css`: white background, blue links, responsive 3:4 portrait layout.
-- `script.js`: CV availability check and PDF/Code-only publication rendering.
+- `script.js`: PDF/Code-only publication rendering.
 - `publications.json`: publication records (currently empty).
-- `assets/portrait.jpg`: replaceable portrait.
-- `assets/cv.pdf`: public CV, to be uploaded by the site owner.
+- `assets/portrait.png`: replaceable portrait.
+- `assets/resume.pdf`: public CV uploaded by the site owner.
 
 The former photo wall, courses, education cards, and experience sections are not
-shown on the homepage. Their existing data and images remain in the repository.
+shown on the homepage. Existing assets are not deleted by this update.

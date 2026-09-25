@@ -101,31 +101,36 @@ h1 {
   overflow-wrap: break-word;
 }
 
+/* Icon-only contact links: Email, CV, LinkedIn. */
 .profile-links {
   grid-area: links;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 0 16px;
-  margin-top: 24px;
-  font-size: 17px;
+  gap: 12px;
+  margin: 24px 0 0 -10px;
 }
 
 .profile-links a {
   display: inline-flex;
+  flex: 0 0 44px;
   align-items: center;
-  min-height: 36px;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  line-height: 1;
+  border-radius: 4px;
 }
 
-.separator {
-  color: #a2aab2;
-  user-select: none;
-}
-
-#cv-link[aria-disabled="true"] {
-  color: var(--muted);
-  cursor: default;
+.profile-links a:hover {
   text-decoration: none;
+}
+
+.profile-links svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
 }
 
 .portrait-frame {
@@ -271,10 +276,6 @@ h2 {
 
   .profile-links {
     margin-top: 20px;
-  }
-
-  .profile-links a {
-    min-height: 44px;
   }
 
   .content-section {
